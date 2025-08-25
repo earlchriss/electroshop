@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electroshop - Product View</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="./">
+                            <h1
+                                class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                Electroshop
+                            </h1>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu (Replaced with Search Bar) -->
+                <div class="hidden md:block w-full max-w-md">
+                    <form action="#" method="GET" class="relative">
+                        <input type="text" name="search" placeholder="Search products..."
+                            class="w-full rounded-full border border-gray-300 pl-4 pr-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
+                        <button type="submit"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-4.35-4.35M16 10a6 6 0 11-12 0 6 6 0 0112 0z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Cart, Profile, and Mobile Menu -->
+                <div class="flex items-center space-x-4 relative">
+                    <!-- Cart Button -->
+                    <button class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 5H19m-6 4a2 2 0 100-4 2 2 0 000 4zm-6 0a2 2 0 100-4 2 2 0 000 4z">
+                            </path>
+                        </svg>
+                        <span
+                            class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5 py-0.5 shadow-md">
+                            3
+                        </span>
+                    </button>
+
+                    <!-- Profile Placeholder -->
+                    <div id="profileContainer" class="relative"></div>
+
+
+                </div>
+            </div>
+    </nav>
+
+    <!-- Product Section -->
+    <section class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <!-- Product Image -->
+        <div class="space-y-4">
+            <img src="https://via.placeholder.com/500x500" alt="Product"
+                class="rounded-xl shadow-md border border-gray-200 w-full">
+            <div class="grid grid-cols-4 gap-3">
+                <img src="https://via.placeholder.com/100"
+                    class="rounded-lg border hover:border-blue-600 cursor-pointer transition">
+                <img src="https://via.placeholder.com/100"
+                    class="rounded-lg border hover:border-blue-600 cursor-pointer transition">
+                <img src="https://via.placeholder.com/100"
+                    class="rounded-lg border hover:border-blue-600 cursor-pointer transition">
+                <img src="https://via.placeholder.com/100"
+                    class="rounded-lg border hover:border-blue-600 cursor-pointer transition">
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="space-y-6">
+            <!-- Title -->
+            <h2 class="text-3xl font-bold text-gray-900">iPhone 15 Pro Max</h2>
+
+            <!-- Rating -->
+            <div class="flex items-center space-x-2">
+                <div class="flex text-yellow-400 text-lg">★★★★★</div>
+                <span class="text-sm text-gray-600">(128 reviews)</span>
+                <span class="text-sm text-blue-600 ml-4 cursor-pointer hover:underline">1.2k Sold</span>
+            </div>
+
+            <!-- Price -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-lg shadow-md">
+                <span class="text-4xl font-extrabold">₱79,990</span>
+                <span class="ml-2 line-through text-gray-200 text-lg">₱89,990</span>
+            </div>
+
+            <!-- Variants -->
+            <div>
+                <h3 class="font-semibold mb-2">Variants</h3>
+                <div class="flex gap-3">
+                    <button class="px-4 py-2 border rounded-lg hover:border-blue-600">128GB</button>
+                    <button class="px-4 py-2 border rounded-lg hover:border-blue-600">256GB</button>
+                    <button class="px-4 py-2 border rounded-lg hover:border-blue-600">512GB</button>
+                </div>
+            </div>
+
+            <!-- Quantity -->
+            <div>
+                <h3 class="font-semibold mb-2">Quantity</h3>
+                <div class="flex items-center border w-32 rounded-lg">
+                    <button class="px-3 py-2 text-lg">-</button>
+                    <input type="text" value="1" class="w-12 text-center border-x outline-none">
+                    <button class="px-3 py-2 text-lg">+</button>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-4">
+                <button
+                    class="px-6 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-lg shadow-md hover:bg-yellow-500 transition">
+                    Add to Cart
+                </button>
+                <button
+                    class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition">
+                    Buy Now
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- Tabs Section -->
+    <section class="max-w-7xl mx-auto px-6 py-12">
+        <div>
+            <!-- Tab Buttons -->
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8">
+                    <button onclick="openTab(event,'specs')"
+                        class="tab-btn border-b-2 border-blue-600 text-blue-600 py-2 px-4 text-sm font-medium">
+                        Specifications
+                    </button>
+                    <button onclick="openTab(event,'desc')"
+                        class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-4 text-sm font-medium">
+                        Description
+                    </button>
+                    <button onclick="openTab(event,'reviews')"
+                        class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-4 text-sm font-medium">
+                        Reviews
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="mt-6">
+                <!-- Specs -->
+                <div id="specs" class="tab-content">
+                    <ul class="list-disc pl-6 text-gray-700 space-y-2">
+                        <li>CPU: Apple A17 Pro</li>
+                        <li>RAM: 8GB</li>
+                        <li>Storage: 256GB</li>
+                        <li>Camera: 48MP + 12MP</li>
+                        <li>Battery: 4323 mAh</li>
+                    </ul>
+                </div>
+
+                <!-- Description -->
+                <div id="desc" class="tab-content hidden">
+                    <p class="text-gray-700 leading-relaxed">
+                        The iPhone 15 Pro Max is Apple’s most advanced smartphone yet, featuring
+                        the blazing fast A17 Pro chip, a titanium design for durability, and a
+                        cutting-edge triple-camera system for professional photography.
+                    </p>
+                </div>
+
+                <!-- Reviews -->
+                <div id="reviews" class="tab-content hidden">
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <p class="text-gray-800 font-semibold">John D.</p>
+                            <p class="text-yellow-400">★★★★★</p>
+                            <p class="text-gray-600 mt-1">Amazing phone! The performance and camera are incredible.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <p class="text-gray-800 font-semibold">Maria S.</p>
+                            <p class="text-yellow-400">★★★★☆</p>
+                            <p class="text-gray-600 mt-1">Love it, but a bit pricey. Still worth it!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4
+                        class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+                        TechHub</h4>
+                    <p class="text-gray-400">Your trusted partner for premium electronics and exceptional service.</p>
+                </div>
+                <div>
+                    <h5 class="font-semibold mb-4">Quick Links</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Products</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Categories</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold mb-4">Support</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold mb-4">Connect</h5>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 TechHub. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("check_login.php")
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById("profileContainer");
+
+                    if (data.loggedIn) {
+                        // Show dropdown if logged in
+                        container.innerHTML = `
+                    <button onclick="toggleProfileMenu()" 
+                        class="p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="h-9 w-9 rounded-full border border-gray-300 bg-gray-50 p-1 shadow-sm hover:shadow-md transition"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5.121 17.804A9.003 9.003 0 0112 15c2.21 0 4.21.804 5.879 2.136M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="profileMenu"
+                        class="hidden absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
+                        <div class="px-4 py-3 border-b border-gray-100 bg-gray-50">
+                            <p class="text-sm text-gray-600">Signed in as</p>
+                            <p class="text-sm font-medium text-gray-900 truncate">${data.email}</p>
+                        </div>
+                        <div class="py-2">
+                            <a href="profile.php" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">👤 <span class="ml-2">Profile</span></a>
+                            <a href="orders.php" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">📦 <span class="ml-2">My Orders</span></a>
+                            <a href="settings.php" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">⚙️ <span class="ml-2">Settings</span></a>
+                        </div>
+                        <div class="border-t border-gray-100">
+                            <a href="logout.php" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">🚪 <span class="ml-2">Logout</span></a>
+                        </div>
+                    </div>
+                `;
+                    } else {
+                        // Show login icon if NOT logged in
+                        container.innerHTML = `
+                    <a href="login.html" class="p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="h-9 w-9 rounded-full border border-gray-300 bg-gray-50 p-1 shadow-sm hover:shadow-md transition"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5.121 17.804A9.003 9.003 0 0112 15c2.21 0 4.21.804 5.879 2.136M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </a>
+                `;
+                    }
+                });
+        });
+
+        // Toggle dropdown
+        function toggleProfileMenu() {
+            document.getElementById("profileMenu").classList.toggle("hidden");
+        }
+    </script>
+
+
+    <script>
+        function toggleProfileMenu() {
+            document.getElementById("profileMenu").classList.toggle("hidden");
+        }
+
+        // Close dropdown if clicked outside
+        window.addEventListener("click", function (e) {
+            const profileBtn = document.querySelector("[onclick='toggleProfileMenu()']");
+            const menu = document.getElementById("profileMenu");
+            if (!profileBtn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.add("hidden");
+            }
+        });
+    </script>
+    <script>
+        function openTab(evt, tabId) {
+            // Hide all contents
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+
+            // Reset all tab buttons
+            document.querySelectorAll(".tab-btn").forEach(el => {
+                el.classList.remove("border-blue-600", "text-blue-600");
+                el.classList.add("border-transparent", "text-gray-500");
+            });
+
+            // Show selected content
+            document.getElementById(tabId).classList.remove("hidden");
+
+            // Highlight active tab button
+            evt.currentTarget.classList.add("border-blue-600", "text-blue-600");
+            evt.currentTarget.classList.remove("border-transparent", "text-gray-500");
+        }
+    </script>
+
+</body>
+
+</html>

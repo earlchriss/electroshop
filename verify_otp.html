@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Verify OTP - ElectroHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-96">
+        <h2 class="text-xl font-bold mb-4 text-center">Verify Your Email</h2>
+        <p class="text-gray-600 text-sm mb-4 text-center">
+            Enter the OTP sent to your email <span id="userEmail" class="font-medium"></span>.
+        </p>
+
+        <!-- OTP Inputs -->
+        <form id="otpForm" class="space-y-4">
+            <div class="flex justify-between">
+                <input type="text" maxlength="1"
+                    class="otp-input w-12 h-12 text-center border rounded-lg text-lg focus:ring-2 focus:ring-blue-500"
+                    required>
+                <input type="text" maxlength="1"
+                    class="otp-input w-12 h-12 text-center border rounded-lg text-lg focus:ring-2 focus:ring-blue-500"
+                    required>
+                <input type="text" maxlength="1"
+                    class="otp-input w-12 h-12 text-center border rounded-lg text-lg focus:ring-2 focus:ring-blue-500"
+                    required>
+                <input type="text" maxlength="1"
+                    class="otp-input w-12 h-12 text-center border rounded-lg text-lg focus:ring-2 focus:ring-blue-500"
+                    required>
+                <input type="text" maxlength="1"
+                    class="otp-input w-12 h-12 text-center border rounded-lg text-lg focus:ring-2 focus:ring-blue-500"
+                    required>
+                <input type="text" maxlength="1"
+                    class="otp-input w-12 h-12 text-center border rounded-lg text-lg focus:ring-2 focus:ring-blue-500"
+                    required>
+            </div>
+
+            <!-- Verify Button -->
+            <button type="submit" id="verifyBtn"
+                class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex justify-center items-center"
+                disabled>
+                <span id="btnText">Verify OTP</span>
+                <svg id="spinner" class="animate-spin h-5 w-5 ml-2 text-white hidden" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+            </button>
+        </form>
+
+        <!-- Resend OTP -->
+        <div class="text-center mt-4">
+            <button id="resendBtn" class="text-blue-600 font-medium" disabled>Resend OTP (30s)</button>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll(".otp-input");
+        const verifyBtn = document.getElementById("verifyBtn");
+        const spinner = document.getElementById("spinner");
+        const btnText = document.getElementById("btnText");
+        const resendBtn = document.getElementById("resendBtn");
+        let countdown = 30;
+
+        // Show email from localStorage
+        document.getElementById("userEmail").textContent = localStorage.getItem("pendingEmail") || "";
+
+        // OTP input behavior
+        inputs.forEach((input, index) => {
+            input.addEventListener("input", () => {
+                if (input.value.length > 0 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                toggleVerifyButton();
+
+                // Auto submit if all filled
+                if ([...inputs].every(i => i.value.trim() !== "")) {
+                    document.getElementById("otpForm").requestSubmit();
+                }
+            });
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && !input.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Enable/Disable Verify Button
+        function toggleVerifyButton() {
+            const allFilled = [...inputs].every(i => i.value.trim() !== "");
+            verifyBtn.disabled = !allFilled;
+        }
+
+        // Submit OTP
+        document.getElementById("otpForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const otp = [...inputs].map(i => i.value).join("");
+            const email = localStorage.getItem("pendingEmail");
+
+            // Show spinner
+            verifyBtn.disabled = true;
+            btnText.textContent = "Verifying...";
+            spinner.classList.remove("hidden");
+
+            fetch("verify_otp.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, otp })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    btnText.textContent = "Verify OTP";
+                    spinner.classList.add("hidden");
+
+                    if (data.status === "success") {
+                        localStorage.removeItem("pendingEmail");
+                        window.location.href = "./";
+                    } else {
+                        alert(data.message);
+                        verifyBtn.disabled = false;
+                    }
+                })
+                .catch(() => {
+                    btnText.textContent = "Verify OTP";
+                    spinner.classList.add("hidden");
+                    alert("Something went wrong. Please try again.");
+                    verifyBtn.disabled = false;
+                });
+        });
+
+        // Resend OTP countdown
+        function startCountdown() {
+            resendBtn.disabled = true;
+            resendBtn.textContent = `Resend OTP (${countdown}s)`;
+
+            const timer = setInterval(() => {
+                countdown--;
+                resendBtn.textContent = `Resend OTP (${countdown}s)`;
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    resendBtn.disabled = false;
+                    resendBtn.textContent = "Resend OTP";
+                    countdown = 30;
+                }
+            }, 1000);
+        }
+
+        resendBtn.addEventListener("click", () => {
+            const email = localStorage.getItem("pendingEmail");
+            fetch("resend_otp.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    startCountdown();
+                });
+        });
+
+        // Start initial countdown
+        startCountdown();
+    </script>
+</body>
+
+</html>

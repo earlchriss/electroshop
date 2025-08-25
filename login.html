@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroHub - Login & Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .form-container {
+            transition: all 0.6s ease-in-out;
+        }
+
+        .slide-enter {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .slide-enter-active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .slide-exit {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .slide-exit-active {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+
+        .input-focus:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-label {
+            transition: all 0.2s ease;
+        }
+
+        .floating-label.active {
+            transform: translateY(-1.5rem) scale(0.8);
+            color: #667eea;
+        }
+
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak {
+            width: 25%;
+            background: #ef4444;
+        }
+
+        .strength-fair {
+            width: 50%;
+            background: #f59e0b;
+        }
+
+        .strength-good {
+            width: 75%;
+            background: #10b981;
+        }
+
+        .strength-strong {
+            width: 100%;
+            background: #059669;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen gradient-bg flex items-center justify-center p-4">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-20 h-20 border-2 border-white rounded-full animate-pulse"></div>
+        <div class="absolute top-32 right-20 w-16 h-16 border-2 border-white rounded-full animate-bounce"></div>
+        <div class="absolute bottom-20 left-32 w-24 h-24 border-2 border-white rounded-full animate-pulse"></div>
+        <div class="absolute bottom-32 right-10 w-12 h-12 border-2 border-white rounded-full animate-bounce"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="text-center py-8 bg-gradient-to-r from-blue-50 to-purple-50">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-bolt text-blue-600 mr-2"></i>ElectroHub
+            </h1>
+            <p class="text-gray-600">Join the future of electronics shopping</p>
+        </div>
+
+        <!-- Toggle Buttons -->
+        <div class="flex bg-gray-100 m-6 rounded-lg p-1">
+            <button id="loginTab" onclick="showLogin()"
+                class="flex-1 py-3 px-6 rounded-lg font-semibold transition-all duration-300 bg-white text-blue-600 shadow-sm">
+                <i class="fas fa-sign-in-alt mr-2"></i>Login
+            </button>
+            <button id="registerTab" onclick="showRegister()"
+                class="flex-1 py-3 px-6 rounded-lg font-semibold transition-all duration-300 text-gray-600 hover:text-blue-600">
+                <i class="fas fa-user-plus mr-2"></i>Register
+            </button>
+        </div>
+
+        <!-- Forms Container -->
+        <div class="relative overflow-hidden">
+            <!-- Login Form -->
+            <div id="loginForm" class="form-container p-6 md:p-8">
+                <div class="max-w-md mx-auto">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Welcome Back!</h2>
+
+                    <form onsubmit="handleLogin(event)" class="space-y-6">
+                        <!-- Email Input -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
+                            </div>
+                            <input type="email" id="loginEmail" required
+                                class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                placeholder="Email address">
+                        </div>
+
+                        <!-- Password Input -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="loginPassword" required
+                                class="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                placeholder="Password">
+                            <button type="button" onclick="togglePassword('loginPassword', 'loginToggle')"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i id="loginToggle" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                            </button>
+                        </div>
+
+                        <!-- Remember Me & Forgot Password -->
+                        <div class="flex items-center justify-between text-sm">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="rememberMe"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <span class="ml-2 text-gray-600">Remember me</span>
+                            </label>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 transition">Forgot password?</a>
+                        </div>
+
+                        <!-- Login Button -->
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold btn-hover focus:ring-4 focus:ring-blue-300">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                        </button>
+
+                        <!-- Divider -->
+                        <div class="relative my-6">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                            </div>
+                        </div>
+
+                        <!-- Social Login -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button"
+                                class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                                <i class="fab fa-google text-red-500 mr-2"></i>
+                                <span class="text-sm font-medium">Google</span>
+                            </button>
+                            <button type="button"
+                                class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                                <i class="fab fa-facebook text-blue-600 mr-2"></i>
+                                <span class="text-sm font-medium">Facebook</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="form-container p-6 md:p-8 hidden">
+                <div class="max-w-md mx-auto">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Create Account</h2>
+
+                    <form onsubmit="handleRegister(event)" class="space-y-6">
+                        <!-- Name Inputs -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input type="text" id="firstName" required
+                                    class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                    placeholder="First name">
+                            </div>
+                            <div class="relative">
+                                <input type="text" id="lastName" required
+                                    class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                    placeholder="Last name">
+                            </div>
+                        </div>
+
+                        <!-- Email Input -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
+                            </div>
+                            <input type="email" id="registerEmail" required
+                                class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                placeholder="Email address">
+                        </div>
+
+                        <!-- Phone Input -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-phone text-gray-400"></i>
+                            </div>
+                            <input type="tel" id="phone"
+                                class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                placeholder="Phone number (optional)">
+                        </div>
+
+                        <!-- Password Input -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="registerPassword" required oninput="checkPasswordStrength()"
+                                class="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                placeholder="Password">
+                            <button type="button" onclick="togglePassword('registerPassword', 'registerToggle')"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i id="registerToggle" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                            </button>
+                            <!-- Password Strength Indicator -->
+                            <div class="mt-2">
+                                <div class="bg-gray-200 rounded-full h-1">
+                                    <div id="passwordStrength" class="password-strength bg-gray-300"></div>
+                                </div>
+                                <p id="strengthText" class="text-xs text-gray-500 mt-1">Password strength</p>
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password Input -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="confirmPassword" required oninput="checkPasswordMatch()"
+                                class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent input-focus"
+                                placeholder="Confirm password">
+                            <div id="passwordMatch" class="hidden mt-1 text-sm">
+                                <span id="matchText"></span>
+                            </div>
+                        </div>
+
+                        <!-- Terms & Conditions -->
+                        <div class="flex items-start">
+                            <input id="terms" type="checkbox" required
+                                class="w-4 h-4 mt-1 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="terms" class="ml-3 text-sm text-gray-600">
+                                I agree to the
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition">Terms of Service</a>
+                                and
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <!-- Register Button -->
+                        <button type="submit"
+                            class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-semibold btn-hover focus:ring-4 focus:ring-purple-300">
+                            <i class="fas fa-user-plus mr-2"></i>Create Account
+                        </button>
+
+                        <!-- Divider -->
+                        <div class="relative my-6">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">Or register with</span>
+                            </div>
+                        </div>
+
+                        <!-- Social Register -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button"
+                                class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                                <i class="fab fa-google text-red-500 mr-2"></i>
+                                <span class="text-sm font-medium">Google</span>
+                            </button>
+                            <button type="button"
+                                class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                                <i class="fab fa-facebook text-blue-600 mr-2"></i>
+                                <span class="text-sm font-medium">Facebook</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center pb-6">
+            <a href="#" class="text-gray-500 hover:text-blue-600 transition text-sm">
+                <i class="fas fa-arrow-left mr-1"></i>Back to ElectroHub
+            </a>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl p-8 max-w-sm w-full text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-2xl text-green-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Success!</h3>
+            <p id="modalMessage" class="text-gray-600 mb-6"></p>
+            <button onclick="closeModal()"
+                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showLogin() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+
+            loginTab.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
+            loginTab.classList.remove('text-gray-600');
+            registerTab.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
+            registerTab.classList.add('text-gray-600');
+        }
+
+        function showRegister() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+
+            registerForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+
+            registerTab.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
+            registerTab.classList.remove('text-gray-600');
+            loginTab.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
+            loginTab.classList.add('text-gray-600');
+        }
+
+        // Password visibility toggle
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Password strength checker
+        function checkPasswordStrength() {
+            const password = document.getElementById('registerPassword').value;
+            const strengthBar = document.getElementById('passwordStrength');
+            const strengthText = document.getElementById('strengthText');
+
+            let strength = 0;
+            let text = '';
+
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            strengthBar.className = 'password-strength';
+
+            switch (strength) {
+                case 0:
+                case 1:
+                    strengthBar.classList.add('strength-weak');
+                    text = 'Weak password';
+                    strengthText.className = 'text-xs text-red-500 mt-1';
+                    break;
+                case 2:
+                    strengthBar.classList.add('strength-fair');
+                    text = 'Fair password';
+                    strengthText.className = 'text-xs text-yellow-500 mt-1';
+                    break;
+                case 3:
+                case 4:
+                    strengthBar.classList.add('strength-good');
+                    text = 'Good password';
+                    strengthText.className = 'text-xs text-green-500 mt-1';
+                    break;
+                case 5:
+                    strengthBar.classList.add('strength-strong');
+                    text = 'Strong password';
+                    strengthText.className = 'text-xs text-green-600 mt-1';
+                    break;
+            }
+
+            strengthText.textContent = text;
+        }
+
+        // Password match checker
+        function checkPasswordMatch() {
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const matchDiv = document.getElementById('passwordMatch');
+            const matchText = document.getElementById('matchText');
+
+            if (confirmPassword.length > 0) {
+                matchDiv.classList.remove('hidden');
+                if (password === confirmPassword) {
+                    matchText.textContent = 'Passwords match';
+                    matchText.className = 'text-green-600';
+                } else {
+                    matchText.textContent = 'Passwords do not match';
+                    matchText.className = 'text-red-600';
+                }
+            } else {
+                matchDiv.classList.add('hidden');
+            }
+        }
+        // Safe modal helpers (fallback to alert)
+        function safeSuccess(msg) {
+            if (typeof showSuccessModal === 'function') showSuccessModal(msg);
+            else alert(msg);
+        }
+        function safeError(msg) {
+            if (typeof showErrorModal === 'function') showErrorModal(msg);
+            else alert('Error: ' + msg);
+        }
+
+        // ---- LOGIN ----
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const remember = !!document.getElementById('rememberMe')?.checked;
+
+            fetch('login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, remember })
+            })
+                .then(async res => {
+                    let payload;
+                    try { payload = await res.json(); }
+                    catch { throw new Error('Invalid server response (not JSON)'); }
+                    if (!res.ok) throw new Error(payload.message || 'Login failed');
+                    return payload;
+                })
+                .then(data => {
+                    safeSuccess(data.message || 'Login successful!');
+                    setTimeout(() => window.location.href = 'index.html', 1200);
+                })
+                .catch(err => safeError(err.message));
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (password !== confirm) {
+                return alert("Passwords do not match!");
+            }
+
+            fetch("register.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ firstName, lastName, email, phone, password })
+            })
+                .then(async res => {
+                    const text = await res.text();       // Always read raw text first
+                    console.log("Raw response:", text);  // 👀 Debug
+                    let payload;
+                    try {
+                        payload = JSON.parse(text);
+                    } catch {
+                        throw new Error("Invalid JSON: " + text);
+                    }
+                    return payload;
+                })
+                .then(data => {
+                    if (data.status === "success") {
+                        localStorage.setItem("pendingEmail", email);
+                        window.location.href = "verify_otp.html";
+                    } else {
+                        alert(data.message || "Registration failed.");
+                    }
+                })
+                .catch(err => {
+                    alert("Error: " + err.message);
+                });
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
