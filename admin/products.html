@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroShop - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        } */
+
+        /* body {
+            /* height: 100vh; */
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* } */
+
+        /* .toast {
+            background: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px 35px 20px 25px;
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            border-left: 6px solid #4070f4;
+        } */
+
+        /* .toast .toast-content {
+            display: flex;
+            align-items: center;
+        } */
+
+        /* .toast .toast-content .check {
+            height: 35px;
+            width: 35px;
+            background-color: #4070f4;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } */
+
+        /* .toast-content .message {
+            display: flex;
+            /* align-items: center; */
+        /* flex-direction: column; */
+        /* margin: 0 20px; */
+        /*  } */
+
+        /* .message .text {
+            font-size: 20px;
+            font-weight: 400;
+            color: #666666;
+        } */
+
+        /* .message .text.text-1 {
+            font-weight: 600;
+            color: #333;
+        } */
+
+        /* .toast .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            padding: 5px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .toast .close:hover {
+            opacity: 1;
+        } */
+
+        .product-card {
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .modal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <div class="flex">
+        <!-- Sisdebar -->
+        <div class="w-64 bg-gray-900 text-white h-screen p-4">
+            <!-- Logo -->
+            <div class="flex items-center justify-center mb-8">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3"><i
+                        class="fas fa-microchip text-xl"></i></div>
+                <h1 class="text-xl font-bold">ElectroShop Admin</h1>
+            </div>
+            <!-- Navigation -->
+            <nav class="space-y-2"><a href="./" class="flex items-center p-3 hover:bg-gray-800 rounded-lg"><i
+                        class="fas fa-chart-line mr-3"></i>Dashboard </a><a href="products.html"
+                    class="flex items-center p-3 bg-blue-600 rounded-lg"><i class="fas fa-box mr-3"></i>Products </a><a
+                    href="orders.html" class="flex items-center p-3 hover:bg-gray-800 rounded-lg"><i
+                        class="fas fa-shopping-cart mr-3"></i>Orders </a><a href="inventory.html"
+                    class="flex items-center p-3 hover:bg-gray-800 rounded-lg"><i
+                        class="fas fa-clipboard mr-3"></i>Inventory </a><a href="settings.html"
+                    class="flex items-center p-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-cog mr-3"></i>Settings
+                </a></nav>
+            <!-- User Profile -->
+            <div class="absolute bottom-4 p-3 bg-gray-800 rounded-lg">
+                <div class="flex items-center"><img
+                        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2fdd5a21-9166-4eea-9cf6-1dc2e093946a.png"
+                        alt="Administrator profile portrait with professional appearance and business attire"
+                        class="w-8 h-8 rounded-full mr-3">
+                    <div>
+                        <p class="text-sm font-medium">John Admin</p>
+                        <p class="text-xs text-gray-400">Super Admin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="flex-1 p-6">
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Products Management</h1>
+                    <p class="text-gray-600 mt-1">Manage your product inventory and listings</p>
+                </div>
+                <div class="flex flex-wrap gap-3 mt-4 sm:mt-0">
+                    <!-- Add New Product Button -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#addProductModal">
+                        <i class="fas fa-plus"></i> Add New Product
+                    </button>
+
+                    <!-- Add New Category Button -->
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#addCategoryModal">
+                        <i class="fas fa-tag"></i> Add Category
+                    </button>
+
+                    <button
+                        class="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Product Modal -->
+            <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content shadow-lg border-0 rounded-3">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title fw-bold" id="addProductModalLabel">
+                                <i class="bi bi-box-seam me-2"></i> Add New Product
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="addProductForm" enctype="multipart/form-data">
+                                <div class="row g-3">
+
+                                    <!-- Product Name -->
+                                    <div class="col-md-6">
+                                        <label for="product_name" class="form-label fw-semibold">Product Name</label>
+                                        <input type="text" class="form-control" name="product_name" id="product_name"
+                                            required>
+                                    </div>
+
+                                    <!-- Price -->
+                                    <div class="col-md-6">
+                                        <label for="price" class="form-label fw-semibold">Price</label>
+                                        <input type="number" class="form-control" name="price" id="price" required>
+                                    </div>
+
+                                    <!-- Category -->
+                                    <div class="col-md-6">
+                                        <label for="category" class="form-label fw-semibold">Category</label>
+                                        <input type="text" class="form-control" name="category" id="category"
+                                            placeholder="Ex: Electronics, Fashion">
+                                    </div>
+
+                                    <!-- Quantity -->
+                                    <div class="col-md-6">
+                                        <label for="quantity" class="form-label fw-semibold">Quantity</label>
+                                        <input type="number" class="form-control" name="quantity" id="quantity" min="1"
+                                            required>
+                                    </div>
+
+                                    <!-- Stock -->
+                                    <div class="col-md-6">
+                                        <label for="stock" class="form-label fw-semibold">Stock</label>
+                                        <input type="number" class="form-control" name="stock" id="stock" min="0"
+                                            required>
+                                    </div>
+
+                                    <!-- Upload Images -->
+                                    <div class="col-md-12">
+                                        <label for="images" class="form-label fw-semibold">Product Images (Max
+                                            5)</label>
+                                        <input type="file" class="form-control" name="images[]" id="images"
+                                            accept="image/*" multiple>
+                                        <div id="imagePreview" class="d-flex flex-wrap gap-2 mt-2"></div>
+                                    </div>
+
+                                    <!-- Variants -->
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">Product Variants</label>
+                                        <div id="variantContainer"></div>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                            id="addVariantBtn">
+                                            <i class="bi bi-plus-circle me-1"></i> Add Variant
+                                        </button>
+                                    </div>
+
+                                    <!-- Specifications -->
+                                    <div class="col-md-12">
+                                        <label for="specification" class="form-label fw-semibold">Specifications</label>
+                                        <textarea class="form-control" name="specification" id="specification" rows="2"
+                                            placeholder="Ex: Material, Size, Weight"></textarea>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="col-md-12">
+                                        <label for="description" class="form-label fw-semibold">Description</label>
+                                        <textarea class="form-control" name="description" id="description" rows="3"
+                                            placeholder="Detailed description of the product"></textarea>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer mt-3">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <i class="bi bi-x-circle me-1"></i> Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-save me-1"></i> Save Product
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JavaScript for Variants & Image Preview -->
+            <script>
+                // Image Preview (Max 5)
+                document.getElementById("images").addEventListener("change", function (event) {
+                    let preview = document.getElementById("imagePreview");
+                    preview.innerHTML = "";
+                    let files = event.target.files;
+
+                    if (files.length > 5) {
+                        alert("You can upload up to 5 images only.");
+                        event.target.value = "";
+                        return;
+                    }
+
+                    Array.from(files).forEach(file => {
+                        let reader = new FileReader();
+                        reader.onload = function (e) {
+                            let img = document.createElement("img");
+                            img.src = e.target.result;
+                            img.classList.add("rounded", "border");
+                            img.style.width = "80px";
+                            img.style.height = "80px";
+                            img.style.objectFit = "cover";
+                            preview.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                });
+
+                // Add Variants
+                document.getElementById("addVariantBtn").addEventListener("click", function () {
+                    let container = document.getElementById("variantContainer");
+
+                    let variantGroup = document.createElement("div");
+                    variantGroup.classList.add("d-flex", "align-items-center", "mb-2", "gap-2");
+
+                    variantGroup.innerHTML = `
+      <input type="text" class="form-control" name="variant_name[]" placeholder="Variant (e.g. Color, Size)" required>
+      <input type="text" class="form-control" name="variant_value[]" placeholder="Value (e.g. Red, XL)" required>
+      <button type="button" class="btn btn-danger btn-sm removeVariant"><i class="fas fa-trash"></i></button>
+    `;
+
+                    container.appendChild(variantGroup);
+
+                    // Remove Variant
+                    variantGroup.querySelector(".removeVariant").addEventListener("click", function () {
+                        variantGroup.remove();
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $("#addProductForm").on("submit", function (e) {
+                        e.preventDefault();
+
+                        let formData = new FormData(this); // Collect all form data (supports images, arrays, text, etc.)
+
+                        $.ajax({
+                            url: "add_product.php", // your backend PHP
+                            type: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            beforeSend: function () {
+                                // Show loader or disable button
+                                $(".btn-primary").prop("disabled", true).html('<i class="bi bi-hourglass-split me-1"></i> Saving...');
+                            },
+                            success: function (response) {
+                                try {
+                                    let res = JSON.parse(response); // Parse JSON response
+
+                                    if (res.status === "success") {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Product Added!",
+                                            text: res.message,
+                                            showConfirmButton: false,
+                                            timer: 2000
+                                        });
+
+                                        $("#addProductForm")[0].reset();
+                                        $("#imagePreview").html("");
+                                        $("#variantContainer").html("");
+                                        $("#addProductModal").modal("hide");
+
+                                        // Optionally reload product list
+                                        setTimeout(() => {
+                                            location.reload();
+                                        }, 2000);
+                                    } else {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Failed!",
+                                            text: res.message
+                                        });
+                                    }
+                                } catch (error) {
+                                    console.error("Invalid JSON response", response);
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Server Error",
+                                        text: "Invalid response from server."
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr.responseText);
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Request Failed",
+                                    text: "Something went wrong. Please try again."
+                                });
+                            },
+                            complete: function () {
+                                $(".btn-primary").prop("disabled", false).html('<i class="bi bi-save me-1"></i> Save Product');
+                            }
+                        });
+                    });
+                });
+            </script>
+
+
+            <!-- Add Category Modal -->
+            <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title">Add New Category</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addCategoryForm">
+                                <div class="mb-3">
+                                    <label for="category_name" class="form-label">Category Name</label>
+                                    <input type="text" class="form-control" name="category_name" id="category_name"
+                                        required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Save Category</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toast Container -->
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+                <div id="toastContainer"></div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <i
+                                class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" placeholder="Search products..."
+                                class="search-input w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                            <option>All Categories</option>
+                            <option>Electronics</option>
+                            <option>Clothing</option>
+                            <option>Home & Garden</option>
+                            <option>Books</option>
+                        </select>
+                        <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                            <option>All Status</option>
+                            <option>Active</option>
+                            <option>Draft</option>
+                            <option>Out of Stock</option>
+                        </select>
+                        <button class="bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-lg text-sm">
+                            <i class="fas fa-filter"></i>
+                            Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Product Card 1 -->
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://placehold.co/400x300"
+                            alt="Modern wireless headphones with noise cancellation in matte black finish"
+                            class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="status-badge bg-green-100 text-green-800">In Stock</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Premium Wireless Headphones</h3>
+                        <p class="text-gray-600 text-sm mb-3">Electronics • Audio</p>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-blue-600">$199.99</span>
+                            <span class="text-sm text-gray-500">SKU: HP-001</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">42 in stock</span>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-full">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://placehold.co/400x300"
+                            alt="Organic cotton t-shirt in various colors with minimalist design"
+                            class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="status-badge bg-yellow-100 text-yellow-800">Low Stock</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Organic Cotton T-Shirt</h3>
+                        <p class="text-gray-600 text-sm mb-3">Clothing • Apparel</p>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-blue-600">$29.99</span>
+                            <span class="text-sm text-gray-500">SKU: TS-045</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">5 in stock</span>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-full">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://placehold.co/400x300"
+                            alt="Smart home assistant device with voice control and LED display"
+                            class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="status-badge bg-red-100 text-red-800">Out of Stock</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Smart Home Assistant</h3>
+                        <p class="text-gray-600 text-sm mb-3">Electronics • Smart Home</p>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-blue-600">$149.99</span>
+                            <span class="text-sm text-gray-500">SKU: SHA-007</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">0 in stock</span>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-full">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://placehold.co/400x300"
+                            alt="Ceramic coffee mug set with modern geometric patterns and gold accents"
+                            class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="status-badge bg-green-100 text-green-800">In Stock</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Ceramic Coffee Mug Set</h3>
+                        <p class="text-gray-600 text-sm mb-3">Home • Kitchenware</p>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-blue-600">$39.99</span>
+                            <span class="text-sm text-gray-500">SKU: CMS-123</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">87 in stock</span>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-full">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center items-center mt-8">
+                <nav class="flex items-center gap-1">
+                    <button class="px-3 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="px-3 py-2 rounded-lg bg-blue-600 text-white">1</button>
+                    <button
+                        class="px-3 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50">2</button>
+                    <button
+                        class="px-3 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50">3</button>
+                    <span class="px-2 text-gray-500">...</span>
+                    <button
+                        class="px-3 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50">10</button>
+                    <button class="px-3 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS Bundle (includes Popper.js for dropdowns, modals, tooltips) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
+            </script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#addCategoryForm").on("submit", function (e) {
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "add_category.php", // backend PHP file
+                        type: "POST",
+                        data: $(this).serialize(),
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#categoryMessage").html('<div class="text-info">Saving...</div>');
+                        },
+                        success: function (response) {
+                            let toastType = (response.status === "success") ? "bg-success text-white" : "bg-danger text-white";
+                            let message = response.message;
+
+                            // Toast Template with Progress
+                            let toastHtml = `
+      <div class="toast align-items-center ${toastType} border-0 mb-2 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            ${message}
+            <div class="progress mt-2" style="height: 3px;">
+              <div class="progress-bar bg-light toast-progress" role="progressbar" style="width: 100%;"></div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>
+    `;
+
+                            // Append toast
+                            $("#toastContainer").append(toastHtml);
+
+                            // Show toast
+                            let toastEl = $("#toastContainer .toast").last()[0];
+                            let toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+                            toast.show();
+
+                            // Animate progress bar
+                            let progressBar = $(toastEl).find(".toast-progress");
+
+                            // Force reflow then animate
+                            progressBar[0].offsetWidth; // <-- force reflow (important)
+                            progressBar.css({
+                                "transition": "width 4s linear",
+                                "width": "0%"
+                            });
+
+                            // On success reset form & close modal
+                            if (response.status === "success") {
+                                $("#addCategoryForm")[0].reset();
+
+                                setTimeout(function () {
+                                    $("#addCategoryModal").modal("hide");
+                                    location.reload();
+                                }, 1000);
+                            }
+
+                            // Remove toast from DOM after hidden
+                            toastEl.addEventListener('hidden.bs.toast', function () {
+                                $(this).remove();
+                            });
+                        }
+
+                        ,
+                        error: function () {
+                            $("#categoryMessage").html('<div class="alert alert-danger">Something went wrong.</div>');
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <!-- JavaScript -->
+        <script>
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const productCards = document.querySelectorAll('.product-card');
+            searchInput.addEventListener('input', function (e) {
+                const searchTerm = e.target.value.toLowerCase();
+
+                productCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const sku = card.querySelector('.text-sm.text-gray-500').textContent.toLowerCase();
+
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || sku.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            // Status filter simulation
+            const statusBadges = document.querySelectorAll('.status-badge');
+            statusBadges.forEach(badge => {
+                badge.addEventListener('click', function () {
+                    const status = this.textContent;
+                    alert(`Filtering by status: ${status}`);
+                });
+            });
+        </script>
+</body>
+
+</html>
